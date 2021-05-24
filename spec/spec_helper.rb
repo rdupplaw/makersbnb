@@ -8,6 +8,7 @@ require File.join(File.dirname(__FILE__), '..', 'app.rb')
 
 require 'capybara'
 require 'capybara/rspec'
+require 'pg'
 require 'rspec'
 require_relative './helpers/set_up_test_database'
 
@@ -31,6 +32,10 @@ Capybara.app = App
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.before(:each) do 
+    connection = PG.connect(dbname: 'makersbnb_test')
+    connection.exec('TRUNCATE users')
+  end
   config.include Capybara::DSL
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
