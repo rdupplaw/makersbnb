@@ -33,3 +33,13 @@ A web application that allows users to list spaces they have available, and to h
 - Basic payment implementation though Stripe.
 
 ## User stories
+
+```
+As a user,
+So I can browse spaces,
+I want to see a list of spaces.
+
+As a user,
+So I can list and request spaces as me,
+I want to register.
+```
