@@ -3,20 +3,24 @@ require 'pg'
 require './lib/user'
 
 class App < Sinatra::Base
+  enable :sessions
+
   get '/' do
     redirect('/listings')
   end
 
   get '/listings' do
-    'erb(:listings)'
+    @email = session[:email]
+    erb(:'listings/index')
   end
 
-  get '/users/register' do
-    erb(:'users/register')
+  get '/users/new' do
+    erb(:'users/new')
   end
 
-  post '/users/new' do
+  post '/users' do
     User.register(email: params['email'], password: params['password'])
+    session[:email] = params['email']
     redirect('/listings')
   end
   # start the server if ruby file executed directly
