@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Viewing listings' do
   scenario 'A user can see a page of listings' do
     Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99)
