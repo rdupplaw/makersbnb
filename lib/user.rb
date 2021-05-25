@@ -1,8 +1,12 @@
+
+require 'bcrypt'
+
 class User
   def self.register(email:, password:)
     dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
     connection = PG.connect(dbname: dbname)
-    result = connection.exec("INSERT INTO users (email, password) VALUES('#{email}', '#{password}')
+    encrypted_password = BCrypt::Password.create(password)
+    result = connection.exec("INSERT INTO users (email, password) VALUES('#{email}', '#{encrypted_password}')
     RETURNING id, email")
     User.new(result.first['id'], result.first['email'])
   end

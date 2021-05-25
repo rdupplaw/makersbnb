@@ -8,6 +8,12 @@ describe User do
       result = connection.exec('SELECT * FROM users')
       expect(result.first['email']).to eq(user.email)
     end
+
+    it 'hashes the password using BCrypt' do
+      expect(BCrypt::Password).to receive(:create).with('password')
+  
+      User.register(email: 'email@gmail.com', password: 'password')
+    end
   end 
 
   describe '::find' do
