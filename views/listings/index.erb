@@ -13,6 +13,11 @@
     <input type="submit" value='Sign in'>
   </form>
 <% end %>
+
+<form action="/listings/new" method='get'>
+  <input type="submit" value='List a Space'>
+</form>
+
 <ul>
   <% @listings.each do |listing| %>
     <li>

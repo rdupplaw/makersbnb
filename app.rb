@@ -21,6 +21,15 @@ class App < Sinatra::Base
     erb :'listings/index'
   end
 
+  get '/listings/new' do
+    erb :'listings/new'
+  end
+
+  post '/listings' do
+    Listing.create(name: params[:name], description: params[:description], price: params[:price] )
+    redirect '/listings' 
+  end
+
   get '/users/new' do
     erb(:'users/new')
   end
