@@ -1,9 +1,6 @@
 feature 'registering a new user' do
   scenario 'a new user is added to the db' do
-    visit('/users/new')
-    fill_in(:email, with: 'email@gmail.com')
-    fill_in(:password, with: 'password')
-    click_button('Submit')
+    register_new_user
 
     expect(current_path).to eq('/listings')
 

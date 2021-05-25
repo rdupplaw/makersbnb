@@ -1,7 +1,18 @@
-<% if @user %>
+<% if @user %> 
+<form action="/sessions/destroy" method='post'>
+  <input type="submit" value='Sign out'>
+</form>
   <p>Hello, <%= @user.email %></p>
 <% end %>
 
+<% if !@user %>
+  <form action="/users/new">
+    <input type="submit" value='Sign up'>
+  </form>
+  <form action="/sessions/new">
+    <input type="submit" value='Sign in'>
+  </form>
+<% end %>
 <ul>
   <% @listings.each do |listing| %>
     <li>

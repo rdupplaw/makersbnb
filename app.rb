@@ -30,6 +30,11 @@ class App < Sinatra::Base
     session[:user_id] = user.id 
     redirect('/listings')
   end
+
+  post '/sessions/destroy' do
+    session.clear
+    redirect('/listings')
+  end
   
   # start the server if ruby file executed directly
   run! if app_file == $PROGRAM_NAME
