@@ -4,7 +4,7 @@
 
 <p> <%= @listing.price %> </p>
 
-<form action="/bookings" method="post">
-  <input type="date" name="date">
+<form action="/listings/<%= @listing.id %>/bookings" method="post">
+  <input type="date" name="start_date">
   <input type="submit" value="Request Space">
 </form>

@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'pg'
 require './lib/user'
 require_relative './lib/listing'
+require_relative './lib/booking'
 
 # Controller for web application
 class App < Sinatra::Base
@@ -12,7 +13,7 @@ class App < Sinatra::Base
   get '/' do
     redirect('/listings')
   end
-  
+
   get '/listings' do
     @email = session[:email]
     @listings = Listing.all
@@ -29,17 +30,19 @@ class App < Sinatra::Base
     redirect('/listings')
   end
 
-  get '/bookings/:id' do
+  get '/listings/:id' do
     @listing = Listing.find(id: params[:id])
-    erb(:'listings/bookings')
+    erb(:'listings/profile')
   end
 
-  post '/bookings' do
-    @date = params['date']
-    Booking.create(@date)
+  post '/listings/:id/bookings' do
+    Booking.create(start_date: params[:start_date], listing_id: params[:id], user_id: session[:user_id])
     redirect('/bookings')
   end
-  
+
+  get '/bookings' do
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $PROGRAM_NAME
 end
