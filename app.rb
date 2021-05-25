@@ -28,6 +28,17 @@ class App < Sinatra::Base
     session[:email] = params['email']
     redirect('/listings')
   end
+
+  get '/bookings/:id' do
+    @listing = Listing.find(id: params[:id])
+    erb(:'listings/bookings')
+  end
+
+  post '/bookings' do
+    @date = params['date']
+    Booking.create(@date)
+    redirect('/bookings')
+  end
   
   # start the server if ruby file executed directly
   run! if app_file == $PROGRAM_NAME

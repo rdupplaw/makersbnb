@@ -3,8 +3,10 @@
 
 <ul>
   <% @listings.each do |listing| %>
-    <li>
-      <p><%= listing.name %></p>
+    <li class="listing" id="listing-<%= listing.id %>">
+      <p>
+        <a href="/bookings/<%=listing.id%>"> <%= listing.name %> </a>
+      </p>
       <p><%= listing.description %></p>
       <p><%= listing.price %></p>
     </li>
