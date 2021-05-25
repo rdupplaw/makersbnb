@@ -1,5 +1,6 @@
-
-<p>Hello, <%= @email %></p>
+<% if @user %>
+  <p>Hello, <%= @user.email %></p>
+<% end %>
 
 <ul>
   <% @listings.each do |listing| %>

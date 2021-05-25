@@ -14,7 +14,9 @@ class App < Sinatra::Base
   end
   
   get '/listings' do
-    @email = session[:email]
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+    end
     @listings = Listing.all
     erb :'listings/index'
   end
@@ -24,8 +26,8 @@ class App < Sinatra::Base
   end
 
   post '/users' do
-    User.register(email: params['email'], password: params['password'])
-    session[:email] = params['email']
+    user = User.register(email: params['email'], password: params['password'])
+    session[:user_id] = user.id 
     redirect('/listings')
   end
   
