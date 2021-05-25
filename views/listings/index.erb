@@ -1,6 +1,10 @@
 
 <p>Hello, <%= @email %></p>
 
+<form action="/listings/new" method='get'>
+  <input type="submit" value='List a Space'>
+</form>
+
 <ul>
   <% @listings.each do |listing| %>
     <li>
