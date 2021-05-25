@@ -1,5 +1,16 @@
-
-<p>Hello, <%= @email %></p>
+<% if @user %> 
+<form action="/sessions/destroy" method='post'>
+  <input type="submit" value='Sign out'>
+</form>
+  <p>Hello, <%= @user.email %></p>
+<% else %>
+  <form action="/users/new">
+    <input type="submit" value='Sign up'>
+  </form>
+  <form action="/sessions/new">
+    <input type="submit" value='Sign in'>
+  </form>
+<% end %>
 
 <form action="/listings/new" method='get'>
   <input type="submit" value='List a Space'>

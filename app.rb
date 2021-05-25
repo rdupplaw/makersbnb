@@ -14,7 +14,9 @@ class App < Sinatra::Base
   end
   
   get '/listings' do
-    @email = session[:email]
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+    end
     @listings = Listing.all
     erb :'listings/index'
   end
@@ -32,12 +34,28 @@ class App < Sinatra::Base
     erb(:'users/new')
   end
 
+  get '/sessions/new' do
+    erb(:'sessions/new')
+  end
+
   post '/users' do
-    User.register(email: params['email'], password: params['password'])
-    session[:email] = params['email']
+    user = User.register(email: params['email'], password: params['password'])
+    session[:user_id] = user.id 
     redirect('/listings')
   end
   
+  post '/sessions' do
+    user = User.login(params['email'], params['password'])
+    if user
+      session[:user_id] = user.id
+    end
+    redirect('/listings')
+  end
+  
+  post '/sessions/destroy' do
+    session.clear
+    redirect('/listings')
+  end
   # start the server if ruby file executed directly
   run! if app_file == $PROGRAM_NAME
 end
