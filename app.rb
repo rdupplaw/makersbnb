@@ -15,9 +15,7 @@ class App < Sinatra::Base
   end
 
   get '/listings' do
-    if session[:user_id]
-      @user = User.find(session[:user_id])
-    end
+    @user = User.find(session[:user_id]) if session[:user_id]
     @listings = Listing.all
     erb :'listings/index'
   end
@@ -27,8 +25,8 @@ class App < Sinatra::Base
   end
 
   post '/listings' do
-    Listing.create(name: params[:name], description: params[:description], price: params[:price] )
-    redirect '/listings' 
+    Listing.create(name: params[:name], description: params[:description], price: params[:price])
+    redirect '/listings'
   end
 
   get '/users/new' do
@@ -41,7 +39,7 @@ class App < Sinatra::Base
 
   post '/users' do
     user = User.register(email: params['email'], password: params['password'])
-    session[:user_id] = user.id 
+    session[:user_id] = user.id
     redirect('/listings')
   end
 
@@ -56,16 +54,16 @@ class App < Sinatra::Base
   end
 
   get '/bookings' do
+    @bookings = Booking.where(user_id: session[:user_id])
+    erb :'bookings/index'
   end
-  
+
   post '/sessions' do
     user = User.login(params['email'], params['password'])
-    if user
-      session[:user_id] = user.id
-    end
+    session[:user_id] = user.id if user
     redirect('/listings')
   end
-  
+
   post '/sessions/destroy' do
     session.clear
     redirect('/listings')

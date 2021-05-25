@@ -1,0 +1,5 @@
+<% @bookings.each do |booking| %>
+  <%= Listing.find(id: booking.listing_id).name  %>
+  <%= booking.confirmed || 'Not confirmed' %>
+  <%= booking.start_date %>
+<% end%>
