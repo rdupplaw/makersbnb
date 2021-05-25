@@ -25,17 +25,28 @@ class App < Sinatra::Base
     erb(:'users/new')
   end
 
+  get '/sessions/new' do
+    erb(:'sessions/new')
+  end
+
   post '/users' do
     user = User.register(email: params['email'], password: params['password'])
     session[:user_id] = user.id 
     redirect('/listings')
   end
-
+  
+  post '/sessions' do
+    user = User.login(params['email'], params['password'])
+    if user
+      session[:user_id] = user.id
+    end
+    redirect('/listings')
+  end
+  
   post '/sessions/destroy' do
     session.clear
     redirect('/listings')
   end
-  
   # start the server if ruby file executed directly
   run! if app_file == $PROGRAM_NAME
 end

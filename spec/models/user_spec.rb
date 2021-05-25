@@ -24,4 +24,12 @@ describe User do
       expect(result.email).to eq(user.email)
     end
   end
+
+  describe '::login' do
+    it 'returns the user id given the correct email and password' do
+      result = User.register(email: 'email@gmail.com', password: 'password')
+      user = User.login('email@gmail.com', 'password')
+      expect(user.id).to eq(result.id)
+    end
+  end
 end

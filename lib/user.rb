@@ -18,6 +18,14 @@ class User
     User.new(result.first['id'], result.first['email'])
   end
 
+  def self.login(email, password)
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+    user = connection.exec("SELECT * FROM users WHERE email = '#{email}'")
+    return unless user.any?
+    BCrypt::Password.new(user.first['password']) == password ? User.new(user.first['id'], user.first['email']) : nil  
+  end
+
   attr_reader :id, :email
 
   def initialize(id, email)
