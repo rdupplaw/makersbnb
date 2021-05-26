@@ -1,0 +1,10 @@
+<h1> <%= @listing.name %> </h1>
+
+<p> <%= @listing.description %> </p>
+
+<p> <%= @listing.price %> </p>
+
+<form action="/listings/<%= @listing.id %>/bookings" method="post">
+  <input type="date" name="start_date">
+  <input type="submit" value="Request Space">
+</form>
