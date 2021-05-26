@@ -1,0 +1,42 @@
+<h1> <%= @listing.name %> </h1>
+
+<p> <%= @listing.description %> </p>
+
+<p> <%= @listing.price %> </p>
+
+<p> From: <%= @user.email %></p>
+
+<p> Date: <%= @booking.date %></p>
+
+<h2> Other requests for this space</h2>
+
+<ul>
+  <% @incoming_bookings.each do |booking| %>
+    <li>
+      <p><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a></p>
+      <p>
+        <% if booking.confirmed.nil?  %>
+          Not confirmed
+        <% elsif booking.confirmed %>
+          Confirmed
+        <% else %>
+          Denied
+        <% end %>
+      </p>
+      <p><%= booking.start_date %></p>
+    </li>
+  <% end%>
+</ul>
+
+
+<form action="/bookings/<%= @booking.id %>" method='post'>
+  <input name="_method" type="hidden" value="patch" />
+  <input name='choice' value='accept'>
+  <input type="submit" value="Confirm request from <%= @user.email %>" id="name">
+</form>
+
+<form action="/bookings/<%= @booking.id %>" method='post'>
+  <input name="_method" type="hidden" value="patch" />
+  <input name='choice' value='reject'>
+  <input type="submit" value="Deny request from <%= @user.email %>" id="name">
+</form>
