@@ -5,6 +5,7 @@ require 'pg'
 require './lib/user'
 require_relative './lib/listing'
 require_relative './lib/booking'
+require_relative './database_connection_setup'
 
 # Controller for web application
 class App < Sinatra::Base

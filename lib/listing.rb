@@ -15,10 +15,7 @@ class Listing
   end
 
   def self.all
-    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
-    connection = PG.connect(dbname: dbname)
-    result = connection
-             .exec_params('SELECT * FROM listings')
+    result = DatabaseConnection.query('SELECT * FROM listings')
     result.map do |listing|
       Listing.new(id: listing['id'], name: listing['name'], description: listing['description'],
                   price: listing['price'], owner_id: listing['owner_id'])
@@ -26,19 +23,14 @@ class Listing
   end
 
   def self.create(name:, description:, price:, owner_id:)
-    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
-    connection = PG.connect(dbname: dbname)
-    listing = connection
-              .exec_params('INSERT INTO listings (name, description, price, owner_id) VALUES ($1, $2, $3, $4) RETURNING id, name, description, price, owner_id;',
-                           [name, description, price, owner_id]).first
+    listing = DatabaseConnection.query_params('INSERT INTO listings (name, description, price, owner_id) VALUES ($1, $2, $3, $4) RETURNING id, name, description, price, owner_id;',
+                                              [name, description, price, owner_id]).first
     Listing.new(id: listing['id'], name: listing['name'], description: listing['description'],
                 price: listing['price'], owner_id: listing['owner_id'])
   end
 
   def self.find(id:)
-    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
-    connection = PG.connect(dbname: dbname)
-    result = connection.exec("SELECT * FROM listings WHERE id = #{id};")
+    result = DatabaseConnection.query("SELECT * FROM listings WHERE id = #{id};")
     Listing.new(
       id: result[0]['id'],
       name: result[0]['name'],
