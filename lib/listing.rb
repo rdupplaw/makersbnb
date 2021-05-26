@@ -4,13 +4,14 @@ require 'pg'
 
 # ORM for listings table
 class Listing
-  attr_reader :id, :name, :description, :price
+  attr_reader :id, :name, :description, :price, :owner_id
 
-  def initialize(id:, name:, description:, price:)
+  def initialize(id:, name:, description:, price:, owner_id:)
     @id = id
     @name = name
     @description = description
     @price = price
+    @owner_id = owner_id
   end
 
   def self.all
@@ -20,18 +21,18 @@ class Listing
              .exec_params('SELECT * FROM listings')
     result.map do |listing|
       Listing.new(id: listing['id'], name: listing['name'], description: listing['description'],
-                  price: listing['price'])
+                  price: listing['price'], owner_id: listing['owner_id'])
     end
   end
 
-  def self.create(name:, description:, price:)
+  def self.create(name:, description:, price:, owner_id:)
     dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
     connection = PG.connect(dbname: dbname)
     listing = connection
-              .exec_params('INSERT INTO listings (name, description, price) VALUES ($1, $2, $3) RETURNING id, name, description, price;',
-                           [name, description, price]).first
+              .exec_params('INSERT INTO listings (name, description, price, owner_id) VALUES ($1, $2, $3, $4) RETURNING id, name, description, price, owner_id;',
+                           [name, description, price, owner_id]).first
     Listing.new(id: listing['id'], name: listing['name'], description: listing['description'],
-                price: listing['price'])
+                price: listing['price'], owner_id: listing['owner_id'])
   end
 
   def self.find(id:)
@@ -42,7 +43,8 @@ class Listing
       id: result[0]['id'],
       name: result[0]['name'],
       description: result[0]['description'],
-      price: result[0]['price']
+      price: result[0]['price'],
+      owner_id: result[0]['owner_id']
     )
   end
 end

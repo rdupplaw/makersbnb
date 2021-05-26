@@ -35,14 +35,15 @@ class Booking
     connection = PG.connect(dbname: dbname)
 
     result = connection.exec("SELECT * FROM bookings WHERE id=#{id}")
-    Booking.new(id: result[0]['id'], confirmed: result[0]['confirmed'], start_date: result[0]['start_date'], listing_id: result[0]['listing_id'], user_id: result[0]['user_id'])
+    Booking.new(id: result[0]['id'], confirmed: result[0]['confirmed'], start_date: result[0]['start_date'],
+                listing_id: result[0]['listing_id'], user_id: result[0]['user_id'])
   end
 
   def accept
     dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
     connection = PG.connect(dbname: dbname)
 
-    connection.exec("UPDATE bookings SET confirmed = TRUE WHERE id = #{self.id}")
+    connection.exec("UPDATE bookings SET confirmed = TRUE WHERE id = #{id}")
     confirm_booking
   end
 
@@ -50,11 +51,24 @@ class Booking
     dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
     connection = PG.connect(dbname: dbname)
 
-    connection.exec("UPDATE bookings SET confirmed = FALSE WHERE id = #{self.id}")
+    connection.exec("UPDATE bookings SET confirmed = FALSE WHERE id = #{id}")
     reject_booking
   end
 
-  private 
+  def self.incoming_bookings(owner_id:)
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+    results = connection.exec_params(
+      'SELECT * FROM listings INNER JOIN bookings ON listings.id=bookings.listing_id WHERE owner_id=$1;',
+      [owner_id]
+    )
+    results.map do |booking|
+      Booking.new(id: booking['id'], confirmed: booking['confirmed'], start_date: booking['start_date'], listing_id: booking['listing_id'],
+                  user_id: booking['user_id'])
+    end
+  end
+
+  private
 
   def confirm_booking
     @confirmed = true

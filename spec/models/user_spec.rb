@@ -11,10 +11,10 @@ describe User do
 
     it 'hashes the password using BCrypt' do
       expect(BCrypt::Password).to receive(:create).with('password')
-  
+
       User.register(email: 'email@gmail.com', password: 'password')
     end
-  end 
+  end
 
   describe '::find' do
     it 'returns a user from a user id' do

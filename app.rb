@@ -26,7 +26,8 @@ class App < Sinatra::Base
   end
 
   post '/listings' do
-    Listing.create(name: params[:name], description: params[:description], price: params[:price])
+    Listing.create(name: params[:name], description: params[:description], price: params[:price],
+                   owner_id: session[:user_id])
     redirect '/listings'
   end
 
@@ -55,19 +56,22 @@ class App < Sinatra::Base
   end
 
   get '/bookings' do
-    @bookings = Booking.where(user_id: session[:user_id])
+    @outgoing_bookings = Booking.where(user_id: session[:user_id])
+    @incoming_bookings = Booking.incoming_bookings(owner_id: session[:user_id])
     erb :'bookings/index'
   end
 
   get '/bookings/:id' do
     @booking = Booking.find_by_id(id: params[:id])
-    @listing = Listing.find_by_id(id: @booking.listing_id)
-    @user = User.find_by_id(id: @booking.user_id)
-    erb(:'bookings/profile') 
+    @incoming_bookings = Booking.incoming_bookings(owner_id: session[:user_id])
+    @listing = Listing.find(id: @booking.listing_id)
+    @user = User.find(@booking.user_id)
+    erb(:'bookings/profile')
   end
 
-  patch 'bookings/:id' do
-    params[:choice] == 'accept' ? Booking.accept(id: params[:id]) : Booking.reject(id: params[:id])
+  patch '/bookings/:id' do
+    booking = Booking.find_by_id(id: params[:id])
+    params[:choice] == 'accept' ? booking.accept : booking.reject
     redirect('/bookings')
   end
 
