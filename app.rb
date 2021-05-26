@@ -9,6 +9,7 @@ require_relative './lib/booking'
 # Controller for web application
 class App < Sinatra::Base
   enable :sessions
+  use Rack::MethodOverride
 
   get '/' do
     redirect('/listings')
@@ -56,6 +57,18 @@ class App < Sinatra::Base
   get '/bookings' do
     @bookings = Booking.where(user_id: session[:user_id])
     erb :'bookings/index'
+  end
+
+  get '/bookings/:id' do
+    @booking = Booking.find_by_id(id: params[:id])
+    @listing = Listing.find_by_id(id: @booking.listing_id)
+    @user = User.find_by_id(id: @booking.user_id)
+    erb(:'bookings/profile') 
+  end
+
+  patch 'bookings/:id' do
+    params[:choice] == 'accept' ? Booking.accept(id: params[:id]) : Booking.reject(id: params[:id])
+    redirect('/bookings')
   end
 
   post '/sessions' do
