@@ -42,7 +42,7 @@ class Booking
     dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
     connection = PG.connect(dbname: dbname)
 
-    result = connection.exec("UPDATE bookings SET confirmed = TRUE WHERE id = #{self.id}")
+    connection.exec("UPDATE bookings SET confirmed = TRUE WHERE id = #{self.id}")
     confirm_booking
   end
 
@@ -50,7 +50,7 @@ class Booking
     dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
     connection = PG.connect(dbname: dbname)
 
-    result = connection.exec("UPDATE bookings SET confirmed = FALSE WHERE id = #{self.id}")
+    connection.exec("UPDATE bookings SET confirmed = FALSE WHERE id = #{self.id}")
     reject_booking
   end
 
