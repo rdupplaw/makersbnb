@@ -42,7 +42,7 @@ class Booking
 
   def self.incoming_bookings(owner_id:)
     results = DatabaseConnection.query_params(
-      'SELECT * FROM listings INNER JOIN bookings ON listings.id=bookings.listing_id WHERE owner_id=$1;',
+      'SELECT * FROM bookings WHERE listing_id IN (SELECT id FROM listings WHERE owner_id=$1);',
       [owner_id]
     )
     results.map do |booking|
