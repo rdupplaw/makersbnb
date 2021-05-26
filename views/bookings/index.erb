@@ -1,5 +1,41 @@
-<% @bookings.each do |booking| %>
-  <%= Listing.find(id: booking.listing_id).name  %>
-  <%= booking.confirmed || 'Not confirmed' %>
-  <%= booking.start_date %>
-<% end%>
+<h1>Requests</h1>
+
+<h2>Requests I've made</h2>
+
+<ul>
+  <% @outgoing_bookings.each do |booking| %>
+    <li>
+      <p><a href="/listings/<%= booking.listing_id %>"><%= Listing.find(id: booking.listing_id).name  %></a></p>
+      <p>
+        <% if booking.confirmed.nil?  %>
+          Not confirmed
+        <% elsif booking.confirmed %>
+          Confirmed
+        <% else %>
+          Denied
+        <% end %>
+      </p>
+      <p><%= booking.start_date %></p>
+    </li>
+  <% end%>
+</ul>
+
+<h2>Requests I've received</h2>
+
+<ul>
+  <% @incoming_bookings.each do |booking| %>
+    <li>
+      <p><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a></p>
+      <p>
+        <% if booking.confirmed.nil?  %>
+          Not confirmed
+        <% elsif booking.confirmed %>
+          Confirmed
+        <% else %>
+          Denied
+        <% end %>
+      </p>
+      <p><%= booking.start_date %></p>
+    </li>
+  <% end%>
+</ul>

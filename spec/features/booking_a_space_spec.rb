@@ -1,6 +1,7 @@
 feature 'Booking a space' do
   scenario 'requesting a space on a particular date' do
-    listing = Listing.create(name: "Charlie's house", description: 'Super cool', price: '99.99')
+    user = User.register(email: 'test@example.com', password: 'password')
+    listing = Listing.create(name: "Charlie's house", description: 'Super cool', price: '99.99', owner_id: user.id)
     register_new_user
 
     visit('/listings')
