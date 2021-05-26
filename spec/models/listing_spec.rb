@@ -5,6 +5,7 @@ require 'listing'
 describe Listing do
   describe '::all' do
     it 'returns an array of Listing objects' do
+      DatabaseConnection.connection
       user = User.register(email: 'test@example.com', password: 'password')
       listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: user.id)
       Listing.create(name: 'test name 2', description: 'test description 2', price: 99.99, owner_id: user.id)

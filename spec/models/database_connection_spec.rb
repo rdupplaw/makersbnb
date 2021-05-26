@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'database_connection'
 
 describe DatabaseConnection do
@@ -19,18 +21,18 @@ describe DatabaseConnection do
   describe '::query' do
     it 'queries the database via PG' do
       connection = DatabaseConnection.setup(dbname)
-      expect(connection).to receive(:exec).with('SELECT * FROM bookmarks LIMIT 10')
+      expect(connection).to receive(:exec).with('SELECT * FROM users LIMIT 10')
 
-      DatabaseConnection.query('SELECT * FROM bookmarks LIMIT 10')
+      DatabaseConnection.query('SELECT * FROM users LIMIT 10')
     end
   end
 
   describe '::query_params' do
     it 'queries the database via PG with params' do
       connection = DatabaseConnection.setup(dbname)
-      expect(connection).to receive(:exec_params).with('SELECT * FROM bookmarks LIMIT $1', [10])
+      expect(connection).to receive(:exec_params).with('SELECT * FROM users LIMIT $1', [10])
 
-      DatabaseConnection.query_params('SELECT * FROM bookmarks LIMIT $1', [10])
+      DatabaseConnection.query_params('SELECT * FROM users LIMIT $1', [10])
     end
   end
 end
