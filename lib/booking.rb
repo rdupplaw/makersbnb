@@ -29,4 +29,38 @@ class Booking
                   user_id: booking['user_id'])
     end
   end
+
+  def self.find_by_id(id:)
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+
+    result = connection.exec("SELECT * FROM bookings WHERE id=#{id}")
+    Booking.new(id: result[0]['id'], confirmed: result[0]['confirmed'], start_date: result[0]['start_date'], listing_id: result[0]['listing_id'], user_id: result[0]['user_id'])
+  end
+
+  def accept
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+
+    result = connection.exec("UPDATE bookings SET confirmed = TRUE WHERE id = #{self.id}")
+    confirm_booking
+  end
+
+  def reject
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+
+    result = connection.exec("UPDATE bookings SET confirmed = FALSE WHERE id = #{self.id}")
+    reject_booking
+  end
+
+  private 
+
+  def confirm_booking
+    @confirmed = true
+  end
+
+  def reject_booking
+    @confirmed = false
+  end
 end
