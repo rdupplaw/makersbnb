@@ -31,7 +31,7 @@ class App < Sinatra::Base
 
   post '/listings' do
     Listing.create(name: params[:name], description: params[:description], price: params[:price],
-                   owner_id: session[:user_id])
+                   owner_id: session[:user_id], start_date: params[:from], end_date: params[:to])
     redirect '/listings'
   end
 

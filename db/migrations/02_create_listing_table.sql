@@ -2,4 +2,6 @@ CREATE TABLE listings (id SERIAL PRIMARY KEY,
                                          name VARCHAR(30),
                                               description VARCHAR(240),
                                                           price MONEY,
-                                                          owner_id INTEGER REFERENCES users(id));
+                                                          owner_id INTEGER REFERENCES users(id),
+                                                          start_date date,
+                                                          end_date date);
