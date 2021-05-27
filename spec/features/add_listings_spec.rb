@@ -11,8 +11,8 @@ feature 'Add listings' do
     fill_in('Name', with: 'Test_1')
     fill_in('Description', with: 'Nice space, allows cats')
     fill_in('Price per night', with: '100.00')
-    fill_in('Available from (DD/MM/YY)', with: '12/12/21')
-    fill_in('Available to (DD/MM/YY)', with: '13/12/21')
+    fill_in('Available from (DD/MM/YY)', with: '2021-05-27')
+    fill_in('Available to (DD/MM/YY)', with: '2021-05-28')
     click_button('List my Space')
 
     expect(current_path).to eq '/listings'
