@@ -1,0 +1,45 @@
+
+<h1>Request for 'Test Listing'</h1>
+
+<p> From: requester@example.com</p>
+
+<p> Date: 2021-12-12</p>
+
+<h2> Other requests for this space</h2>
+
+<ul>
+  
+    <li>
+      <p><a href="/bookings/491">Test Listing</a></p>
+      <p>
+        
+          Not confirmed
+        
+      </p>
+      <p>2021-12-12</p>
+    </li>
+  
+    <li>
+      <p><a href="/bookings/492">Test Listing</a></p>
+      <p>
+        
+          Not confirmed
+        
+      </p>
+      <p>2021-12-12</p>
+    </li>
+  
+</ul>
+
+
+<form action="/bookings/491" method='post'>
+  <input name="_method" type="hidden" value="patch" />
+  <input type="hidden" name='choice' value='accept'>
+  <input type="submit" value="Confirm request from requester@example.com" id="name">
+</form>
+
+<form action="/bookings/491" method='post'>
+  <input name="_method" type="hidden" value="patch" />
+  <input type="hidden" name='choice' value='reject'>
+  <input type="submit" value="Deny request from requester@example.com" id="name">
+</form>

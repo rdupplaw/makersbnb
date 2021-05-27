@@ -32,8 +32,14 @@ class Booking
                 listing_id: result[0]['listing_id'], user_id: result[0]['user_id'])
   end
 
+  def self.reject_all(listing_id:, start_date:, id:)
+    DatabaseConnection.query("UPDATE bookings SET confirmed = FALSE WHERE listing_id = #{listing_id} 
+      AND start_date = '#{start_date}' AND id != #{id}")
+  end 
+
   def accept
     DatabaseConnection.query("UPDATE bookings SET confirmed = TRUE WHERE id = #{id}")
+    Booking.reject_all(listing_id: listing_id, start_date: start_date, id: id)
     confirm_booking
   end
 
