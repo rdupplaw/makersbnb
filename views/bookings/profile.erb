@@ -27,12 +27,12 @@
 
 <form action="/bookings/<%= @booking.id %>" method='post'>
   <input name="_method" type="hidden" value="patch" />
-  <input name='choice' value='accept'>
+  <input type="hidden" name='choice' value='accept'>
   <input type="submit" value="Confirm request from <%= @user.email %>" id="name">
 </form>
 
 <form action="/bookings/<%= @booking.id %>" method='post'>
   <input name="_method" type="hidden" value="patch" />
-  <input name='choice' value='reject'>
+  <input type="hidden" name='choice' value='reject'>
   <input type="submit" value="Deny request from <%= @user.email %>" id="name">
 </form>

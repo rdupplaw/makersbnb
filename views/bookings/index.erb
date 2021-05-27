@@ -9,7 +9,7 @@
       <p>
         <% if booking.confirmed.nil?  %>
           Not confirmed
-        <% elsif booking.confirmed %>
+        <% elsif booking.confirmed == 't' %>
           Confirmed
         <% else %>
           Denied
@@ -29,7 +29,7 @@
       <p>
         <% if booking.confirmed.nil?  %>
           Not confirmed
-        <% elsif booking.confirmed %>
+        <% elsif booking.confirmed == 't' %>
           Confirmed
         <% else %>
           Denied
