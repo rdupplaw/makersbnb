@@ -10,3 +10,5 @@ gem 'rspec'
 gem 'pg'
 gem 'sinatra'
 gem 'sinatra-flash'
+
+gem "rubocop", "~> 1.15"5
