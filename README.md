@@ -42,4 +42,24 @@ I want to see a list of spaces.
 As a user,
 So I can list and request spaces as me,
 I want to register.
+
+As a lister,
+So I can make my spaces available,
+I want to add listings.
+
+As a user,
+So I can re-check my spaces and requests,
+I want to log in.
+
+As a user,
+So no-one else can use my account on my machine,
+I want to log out.
+
+As a requester,
+So I can book accomodation,
+I want to request a space on a certain date.
+
+As a lister,
+So I can let the requester know their booking is confirmed,
+I want to confirm a request.
 ```
