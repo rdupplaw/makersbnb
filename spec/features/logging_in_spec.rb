@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'logging in' do
   scenario 'user is logged in' do
     register_new_user

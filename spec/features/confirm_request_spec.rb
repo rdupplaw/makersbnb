@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Confirming a request' do
   scenario 'A user can confirm an incoming request' do
     requester = User.register(email: 'requester@example.com', password: 'password')

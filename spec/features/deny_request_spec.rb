@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Denying a request' do
   scenario 'A user can deny an incoming request' do
     requester = User.register(email: 'requester@example.com', password: 'password')

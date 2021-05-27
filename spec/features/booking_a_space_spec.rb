@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Booking a space' do
   scenario 'requesting a space on a particular date' do
     user = User.register(email: 'test@example.com', password: 'password')
@@ -37,7 +39,7 @@ feature 'Booking a space' do
     expect(current_path).to eq("/listings/#{listing.id}")
     expect(page).to have_content('test name 1')
     expect(page).to have_content('test description 1')
-    # TODO add sinatra flash
+    # TODO: add sinatra flash
     expect(page).to have_content('A booking already exists on this date')
   end
 end
