@@ -24,11 +24,19 @@ describe User do
     end
   end
 
-  describe '::login' do
+  describe '::authenticate' do
     it 'returns the user id given the correct email and password' do
       result = User.register(email: 'email@gmail.com', password: 'password')
-      user = User.login('email@gmail.com', 'password')
+      user = User.authenticate('email@gmail.com', 'password')
       expect(user.id).to eq(result.id)
+    end
+    it 'returns nil with incorrect password' do
+      result = User.register(email: 'email@gmail.com', password: 'password')
+      expect(User.authenticate('email@gmail.com', 'password1')).to be_nil
+    end
+    it 'returns nil with incorrect email' do
+      result = User.register(email: 'email@gmail.com', password: 'password')
+      expect(User.authenticate('email123@gmail.com', 'password')).to be_nil
     end
   end
 end

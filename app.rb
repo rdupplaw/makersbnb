@@ -86,9 +86,14 @@ class App < Sinatra::Base
   end
 
   post '/sessions' do
-    user = User.login(params['email'], params['password'])
-    session[:user_id] = user.id if user
-    redirect('/listings')
+    user = User.authenticate(params['email'], params['password'])
+    if user
+      session[:user_id] = user.id if user
+      redirect('/listings')
+    else
+      flash[:notice] = 'Incorrect email or password'
+      redirect('/sessions/new')
+    end
   end
 
   post '/sessions/destroy' do

@@ -37,7 +37,6 @@ feature 'Booking a space' do
     expect(current_path).to eq("/listings/#{listing.id}")
     expect(page).to have_content('test name 1')
     expect(page).to have_content('test description 1')
-    # TODO add sinatra flash
     expect(page).to have_content('A booking already exists on this date')
   end
 end
