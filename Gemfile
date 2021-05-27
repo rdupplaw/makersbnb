@@ -11,4 +11,4 @@ gem 'pg'
 gem 'sinatra'
 gem 'sinatra-flash'
 
-gem "rubocop", "~> 1.15"5
+gem "rubocop", "~> 1.15"
