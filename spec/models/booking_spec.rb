@@ -141,4 +141,20 @@ describe Booking do
       expect(existing_booking).to eq(false)
     end
   end
+
+  describe '::reject_all' do
+    it 'rejects all bookings except 1 for a listing on a given day' do
+      owner = User.register(email: 'test2@example.com', password: 'password123')
+      user = User.register(email: 'test3@example.com', password: 'password123')
+      user_two = User.register(email: 'test4@example.com', password: 'password123')
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+      booking_two = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user_two.id)
+    
+      Booking.reject_all(listing_id: listing.id, start_date: booking.start_date, id: booking.id)
+      booking_two_copy = Booking.find_by_id(id: booking_two.id)
+      expect(booking.confirmed).to eq(nil)
+      expect(booking_two_copy.confirmed).to eq('f')
+    end
+  end
 end
