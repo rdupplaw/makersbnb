@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'booking'
 require 'listing'
 require 'user'
@@ -135,7 +137,7 @@ describe Booking do
       booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
 
       existing_booking = Booking.exists(start_date: '2022-07-12', listing_id: listing.id)
-      
+
       expect(existing_booking).to eq(false)
     end
   end

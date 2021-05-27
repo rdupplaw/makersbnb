@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'logging a user out' do
   # need to test for invalid email / passwords
   scenario 'it clears a user from the session' do

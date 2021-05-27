@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'registering a new user' do
   scenario 'a new user is added to the db' do
     register_new_user

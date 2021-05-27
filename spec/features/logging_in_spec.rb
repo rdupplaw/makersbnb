@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'logging in' do
   scenario 'with correct email or password' do
     register_new_user

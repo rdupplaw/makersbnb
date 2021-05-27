@@ -10,7 +10,6 @@ require_relative './database_connection_setup'
 
 # Controller for web application
 
-
 class App < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
@@ -23,7 +22,7 @@ class App < Sinatra::Base
   get '/listings' do
     @user = User.find(session[:user_id]) if session[:user_id]
     @listings = Listing.all
-    erb :'listings/index', :layout => :layout
+    erb :'listings/index', layout: :layout
   end
 
   get '/listings/new' do
@@ -57,9 +56,9 @@ class App < Sinatra::Base
 
   post '/listings/:id/bookings' do
     if Booking.exists(start_date: params[:start_date], listing_id: params[:id])
-      flash[:notice] = "A booking already exists on this date"
+      flash[:notice] = 'A booking already exists on this date'
       redirect("/listings/#{params[:id]}")
-    else 
+    else
       Booking.create(start_date: params[:start_date], listing_id: params[:id], user_id: session[:user_id])
       redirect('/bookings')
     end

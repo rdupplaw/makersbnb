@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'Booking a space' do
   scenario 'requesting a space on a particular date' do
     user = User.register(email: 'test@example.com', password: 'password')
