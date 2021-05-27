@@ -8,7 +8,8 @@ gem 'bcrypt'
 gem 'capybara'
 gem 'pg'
 gem 'rspec'
+gem 'rubocop', '~> 1.15'
+gem 'simplecov', '~> 0.21.2', require: false
+gem 'simplecov-console', '~> 0.9.1', require: false
 gem 'sinatra'
 gem 'sinatra-flash'
-gem 'rubocop', '~> 1.15'
-gem 'simplecov', '~> 0.21.2'
