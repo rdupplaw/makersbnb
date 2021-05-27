@@ -68,6 +68,13 @@ class Booking
     end
   end
 
+  def self.exists(start_date:, listing_id:)
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+    result = connection.exec_params('SELECT * FROM bookings WHERE confirmed=true AND start_date=$1 AND listing_id=$2', [start_date, listing_id]).first
+    result ? true : false
+  end
+
   private
 
   def confirm_booking

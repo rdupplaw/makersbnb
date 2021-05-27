@@ -113,4 +113,30 @@ describe Booking do
       end
     end
   end
+
+  describe '::exists' do
+    it 'returns true if a confirmed booking exists for a given date and listing' do
+      owner = User.register(email: 'test2@example.com', password: 'password123')
+      user = User.register(email: 'test3@example.com', password: 'password123')
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+
+      booking.accept
+
+      existing_booking = Booking.exists(start_date: booking.start_date, listing_id: listing.id)
+
+      expect(existing_booking).to eq(true)
+    end
+
+    it ' returns false if booking doesnt exists for given date and listing' do
+      owner = User.register(email: 'test2@example.com', password: 'password123')
+      user = User.register(email: 'test3@example.com', password: 'password123')
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+
+      existing_booking = Booking.exists(start_date: '2022-07-12', listing_id: listing.id)
+      
+      expect(existing_booking).to eq(false)
+    end
+  end
 end

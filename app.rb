@@ -2,13 +2,17 @@
 
 require 'sinatra/base'
 require 'pg'
+require 'sinatra/flash'
 require './lib/user'
 require_relative './lib/listing'
 require_relative './lib/booking'
 
 # Controller for web application
+
+
 class App < Sinatra::Base
   enable :sessions
+  register Sinatra::Flash
   use Rack::MethodOverride
 
   get '/' do
@@ -18,7 +22,7 @@ class App < Sinatra::Base
   get '/listings' do
     @user = User.find(session[:user_id]) if session[:user_id]
     @listings = Listing.all
-    erb :'listings/index'
+    erb :'listings/index', :layout => :layout
   end
 
   get '/listings/new' do
@@ -51,8 +55,13 @@ class App < Sinatra::Base
   end
 
   post '/listings/:id/bookings' do
-    Booking.create(start_date: params[:start_date], listing_id: params[:id], user_id: session[:user_id])
-    redirect('/bookings')
+    if Booking.exists(start_date: params[:start_date], listing_id: params[:id])
+      flash[:notice] = "A booking already exists on this date"
+      redirect("/listings/#{params[:id]}")
+    else 
+      Booking.create(start_date: params[:start_date], listing_id: params[:id], user_id: session[:user_id])
+      redirect('/bookings')
+    end
   end
 
   get '/bookings' do
