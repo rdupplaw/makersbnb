@@ -46,7 +46,7 @@ feature 'Confirming a request' do
     click_button('Submit')
 
     visit '/bookings'
-    first('h2 > a').click
+    first('h3 > a').click
     click_button("Confirm request from #{requester.email}")
 
     expect(current_path).to eq('/bookings')
