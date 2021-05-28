@@ -7,8 +7,8 @@
     /* Set additional styling options for the columns*/
     .column {
     float: left;
-    width: 100%;
-    display: flex;
+    width: 50%;
+    display: block;
     justify-content: center;
     align-items: center;
     }
@@ -21,17 +21,16 @@
     </style>
  </head>
 
-<div class="pageheading">
+<div class="column">
+  <div class="leftcolumn"><br><br>
   <h1>Check out our available spaces.</h1>
-</div>
-
-<div class="pageheading">
-  <p>With more properties available than ever before,<br>you are guaranteed to find the right space for you.</p>
-</div>
-
-<div class="centrebutton">
+  <p>With more properties available than ever before,<br>you are guaranteed to find the right space for you.</p><br>
+  <hr class="rounded"><br>
+  <h3> Looking to list your own space?</h3><br>
+  <p>It's quick and easy and you can<br>start receiving bookings today!</p><br><br>
 <form action="/listings/new" method='get'>
     <input type="submit" value='List a Space'>
+</div>
 </div>
 
 <div class="column">
@@ -39,10 +38,10 @@
     <ul class="displaylist" id="displaylist">
       <% @listings.each do |listing| %>
         <li class="listing" id="listing-<%= listing.id %>">
-          <h1><a href="/listings/<%=listing.id%>">
-          <li><%= listing.name %></a> | 
-          <%= listing.description %> - 
-          <%= listing.price %></h1></li>
+          <h3><a href="/listings/<%=listing.id%>">
+          <li><%= listing.name %></a></h3>
+          <h4><%= listing.description %></h4>
+          <p>from just <%= listing.price %> / per night</p></li>
         </li>
       <% end %>
     </ul>

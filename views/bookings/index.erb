@@ -8,7 +8,7 @@
     .column {
     float: left;
     width: 50%;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     }
@@ -22,45 +22,55 @@
  </head>
  
 <div class="pageheading">
-<h1>Here are your requests</h1><br>
-</div>
-<div class="column">
-<h2>Requests you've made</h2>
-
-<ul>
-  <% @outgoing_bookings.each do |booking| %>
-    <li>
-      <h2><a href="/listings/<%= booking.listing_id %>"><%= Listing.find(id: booking.listing_id).name  %></a> | 
-        <% if booking.confirmed.nil?  %>
-          Not confirmed
-        <% elsif booking.confirmed == 't' %>
-          Confirmed
-        <% else %>
-          Denied
-        <% end %>
-       for <%= booking.start_date %></h2>
-    </li>
-  <% end%>
-</ul>
+<h1>Here are your requests.</h1><br>
 </div>
 
 <div class="column">
-<h2>Requests you've received</h2>
+<div class="pageheading">
+  <h2>Requests you've made</h2>
+  </div>
+    <div class="listings" id="listings">
+      <ul class="displaylist" id="displaylist">
+        <ul>
+          <% @outgoing_bookings.each do |booking| %>
+      <h3><a href="/listings/<%= booking.listing_id %>"><%= Listing.find(id: booking.listing_id).name  %></a></h3>
+          <li><h4><% if booking.confirmed.nil?  %>
+            Not confirmed
+          <% elsif booking.confirmed == 't' %>
+            Confirmed
+          <% else %>
+            Denied
+          <% end %>
+        for <%= booking.start_date %></h4></li>
+      </li>
+    <% end%>
+  </ul>
+  </ul>
+</div>
+</div>
+</html>
 
-<ul>
-  <% @incoming_bookings.each do |booking| %>
-    <li>
-      <h2>><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a>
-        <% if booking.confirmed.nil?  %>
-          Not confirmed
-        <% elsif booking.confirmed == 't' %>
-          Confirmed
-        <% else %>
-          Denied
-        <% end %>
-       for <%= booking.start_date %></h2>
-    </li>
-  <% end%>
-</ul>
+<div class="column">
+<div class="pageheading">
+  <h2>Requests you've received</h2><br>
+  </div>
+    <div class="listings" id="listings">
+      <ul class="displaylist" id="displaylist">
+        <ul>
+          <% @incoming_bookings.each do |booking| %>
+            <li><h3><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a></li></h3>
+          <li><h4><% if booking.confirmed.nil?  %>
+            Not confirmed
+          <% elsif booking.confirmed == 't' %>
+            Confirmed
+          <% else %>
+            Denied
+          <% end %>
+        for <%= booking.start_date %></h4></li>
+      </li>
+    <% end%>
+  </ul>
+  </ul>
+</div>
 </div>
 </html>

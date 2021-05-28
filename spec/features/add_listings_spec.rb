@@ -6,7 +6,7 @@ feature 'Add listings' do
     click_button('List a Space')
 
     expect(current_path).to eq '/listings/new'
-    expect(page).to have_content('List a Space')
+    expect(page).to have_content('How to list your spacewith us.')
 
     fill_in('Name', with: 'Test_1')
     fill_in('Description', with: 'Nice space, allows cats')

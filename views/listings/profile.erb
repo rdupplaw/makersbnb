@@ -1,10 +1,40 @@
-<h1> <%= @listing.name %> </h1>
+<html class="listingprofilebg">
+ <head>
+    <style>
+    {
+        box-sizing: border-box;
+    }
+    /* Set additional styling options for the columns*/
+    .column {
+    float: left;
+    width: 50%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    }
 
-<p> <%= @listing.description %> </p>
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
+ </head>
 
-<p> <%= @listing.price %> </p>
-
-<form action="/listings/<%= @listing.id %>/bookings" method="post">
-  <input type="date" min="<%= @listing.start_date %>" max="<%= @listing.end_date %>" name="start_date">
-  <input type="submit" value="Request Space">
-</form>
+<div class="column">
+  <div class="leftcolumn">
+    <h1><%= @listing.name %></h1>
+    <hr class="rounded"><br>
+    <p><%= @listing.description %></p><br>
+    <h3>from just <%= @listing.price %> / per night</h3><br>
+  
+  <form action="/listings/<%= @listing.id %>/bookings" method="post">
+    <h6><label for='date'>WHICH DATE ARE YOU INTERESTED IN?</label></h6>
+    <input type="date" min="<%= @listing.start_date %>" max="<%= @listing.end_date %>" name="start_date"><br><br>
+    <input type="submit" value="Request Space">
+  </form><br><br><br>
+    <hr class="thin"><br>
+    <p><a href="/listings/new">Want to list a similar space?</a></p><br><br>
+</div>
+</div>
+</div>

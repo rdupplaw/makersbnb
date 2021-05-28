@@ -1,20 +1,57 @@
 <html class="listingsbg">
-<div class="pageheading"><h1>List a Space</h1></div>
+<head>
+    <style>
+    {
+        box-sizing: border-box;
+    }
+    /* Set additional styling options for the columns*/
+    .column {
+    float: left;
+    width: 50%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    }
 
-<div class="registerforms">
-<form action="/listings" method="post">
-  <h6><label for='name'>Name</label></h6>
-  <input type="text" name="name" id="name">
-  <h6><label for='description'>Description</label></h6>
-  <input type="text" name="description" id="description">
-  <h6><label for='price'>Price per night ($)</label></h6>
-  <input type="text" name="price" id='price'>
-  <h6><label for='from'>Available from (DD/MM/YY)</label></h6>
-  <input type="date" name="from" id='from'>
-  <h6><label for='to'>Available to (DD/MM/YY)</label></h6>
-  <input type="date" name="to" id='to'><br><br>
-  <input type="submit" value='List my Space'><br><br>
-</form>
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
+ </head>
+
+<div class="column">
+  <div class="leftcolumn">
+  <h1>How to list your space<br>with us.</h1>
+  <p>Simply fill in our space listing form on the right and<br>wait for the bookings to roll in.</p><br>
+  <hr class="rounded"><br>
+  <h3>Tips on listing your space:</h3><br>
+  <ul>
+  <li><p>Be creative with your description -<br>make sure it stands out!</p></li>
+  <li><p>Keep the price per night reasonable.</p></li>
+  <li><p>Try to think of why your space is amazing.</p></li>
+  <li><p>Near the beach or city? Let us know!</p></li><br><br>
+</div>
+</div>
+
+<div class="column">
+  <div class="registerforms3">
+    <form action="/listings" method="post">
+      <h6><label for='name'>Name</label></h6>
+      <input type="text" name="name" id="name">
+      <h6><label for='description'>Description</label></h6>
+      <input type="text" name="description" id="description">
+      <h6><label for='price'>Price per night ($)</label></h6>
+      <input type="text" name="price" id='price'>
+      <h6><label for='from'>Available from (DD/MM/YY)</label></h6>
+      <input type="date" name="from" id='from'>
+      <h6><label for='to'>Available to (DD/MM/YY)</label></h6>
+      <input type="date" name="to" id='to'><br><br>
+      <input type="submit" value='List my Space'><br><br>
+    </form>
+  </div>
+</div>
 </html>
 
 
