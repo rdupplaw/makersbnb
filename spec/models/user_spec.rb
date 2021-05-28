@@ -6,7 +6,8 @@ describe User do
   describe '::register' do
     it 'registers a new user' do
       user = User.register(email: 'email@gmail.com', password: 'password')
-      result = DatabaseConnection.query('SELECT * FROM users')
+      connection = PG.connect(dbname: 'makersbnb_test')
+      result = connection.exec('SELECT * FROM users')
       expect(result.first['email']).to eq(user.email)
     end
 
