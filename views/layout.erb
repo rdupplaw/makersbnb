@@ -18,7 +18,7 @@
         </form></li>
         <li><h4><a href="/listings">Listings</a></li></h4>
         <li><h4><a href="/bookings">Bookings</a></li></h4>
-          <li><h4>Hello, <%= @user.email %></h4></li>
+        <div class="welcome"><li><h4><a href="">Hello, <%= @user.email %> |      </a></h4></li></div>
           <% else %>
         <li><form action="/users/new">
           <input type="submit" value='Sign up'>
