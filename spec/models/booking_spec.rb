@@ -5,15 +5,18 @@ require 'listing'
 require 'user'
 
 describe Booking do
+  let(:mock_user_id) { (PG.connect(dbname: 'makersbnb_test')).exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email3', 'encrypted_password3']).first }
+  let(:mock_user_2_id) { (PG.connect(dbname: 'makersbnb_test')).exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first }
+  let(:mock_owner_id) { (PG.connect(dbname: 'makersbnb_test')).exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email4', 'encrypted_password4']).first }
+  let(:mock_owner_2_id) { (PG.connect(dbname: 'makersbnb_test')).exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email5', 'encrypted_password5']).first }
+  let(:mock_listing_id) { (PG.connect(dbname: 'makersbnb_test')).exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
+  ['name', 'description', 99.99, mock_owner_id['id'], '2021-12-12', '2021-12-13']).first }
+  let(:mock_listing_2_id) { (PG.connect(dbname: 'makersbnb_test')).exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
+  ['name', 'description', 99.99, mock_owner_2_id['id'], '2021-12-12', '2021-12-13']).first }
+
+
   describe '::where' do
     it 'returns all bookings for a specified user id' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email3', 'encrypted_password3']).first
-      mock_user_2_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_user_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking1 = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       booking2 = Booking.create(start_date: '2021-08-12', listing_id: mock_listing_id['id'], user_id: mock_user_2_id['id'])
       booking3 = Booking.create(start_date: '2021-09-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
@@ -31,12 +34,6 @@ describe Booking do
 
   describe '::create' do
     it 'creates a new Booking object' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_user_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       persisted_data = PG.connect(dbname: 'makersbnb_test').exec_params('SELECT * FROM bookings WHERE id=$1',
                                                                         [booking.id])
@@ -51,12 +48,6 @@ describe Booking do
 
   describe '::find_by_id' do
     it 'finds a booking object' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_user_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
 
       booking_id = Booking.find_by_id(id: booking.id)
@@ -70,12 +61,6 @@ describe Booking do
 
   describe '#accept' do
     it 'allows a booking to be accepted' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_user_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       booking2 = Booking.create(start_date: '2021-08-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       booking.accept
@@ -87,12 +72,6 @@ describe Booking do
 
   describe '#reject' do
     it 'allows a booking to be rejected' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_owner_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       booking2 = Booking.create(start_date: '2021-08-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       booking.reject
@@ -105,15 +84,6 @@ describe Booking do
   describe '::incoming_bookings' do
     context 'given an owner id' do
       it 'returns all bookings where the listing is owned by the user with this id' do
-        connection = PG.connect(dbname: 'makersbnb_test')
-        mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-        mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                          ['name', 'description', 99.99, mock_owner_id['id'], '2021-12-12', '2021-12-13']).first
-        mock_owner_2_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-        mock_listing_2_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                            ['name', 'description', 99.99, mock_owner_2_id['id'], '2021-12-12', '2021-12-13']).first
-        mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email3', 'encrypted_password3']).first
-
         booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
         Booking.create(start_date: '2021-08-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
         Booking.create(start_date: '2021-09-12', listing_id: mock_listing_2_id['id'], user_id: mock_user_id['id'])
@@ -130,30 +100,15 @@ describe Booking do
 
   describe '::exists' do
     it 'returns true if a confirmed booking exists for a given date and listing' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_owner_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
-
       booking.accept
-
       existing_booking = Booking.exists(start_date: booking.start_date, listing_id: mock_listing_id['id'])
 
       expect(existing_booking).to eq(true)
     end
 
     it ' returns false if booking doesnt exists for given date and listing' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_owner_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
-
       existing_booking = Booking.exists(start_date: '2022-07-12', listing_id: mock_listing_id['id'])
 
       expect(existing_booking).to eq(false)
@@ -162,13 +117,6 @@ describe Booking do
 
   describe '::reject_all' do
     it 'rejects all bookings except 1 for a listing on a given day' do
-      connection = PG.connect(dbname: 'makersbnb_test')
-      mock_owner_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email', 'encrypted_password']).first
-      mock_user_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email2', 'encrypted_password2']).first
-      mock_user_2_id = connection.exec("INSERT INTO users (email, password) VALUES($1, $2) RETURNING id", ['email3', 'encrypted_password3']).first
-      mock_listing_id = connection.exec('INSERT INTO listings (name, description, price, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;',
-                        ['name', 'description', 99.99, mock_owner_id['id'], '2021-12-12', '2021-12-13']).first
-
       booking = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_id['id'])
       booking_two = Booking.create(start_date: '2021-07-12', listing_id: mock_listing_id['id'], user_id: mock_user_2_id['id'])
 
