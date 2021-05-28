@@ -20,12 +20,15 @@ class App < Sinatra::Base
   end
 
   get '/listings' do
+    redirect '/users/new' unless session[:user_id]
     @user = User.find(session[:user_id]) if session[:user_id]
     @listings = Listing.all
     erb :'listings/index', layout: :layout
   end
 
   get '/listings/new' do
+    redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     erb :'listings/new'
   end
 
@@ -36,10 +39,12 @@ class App < Sinatra::Base
   end
 
   get '/users/new' do
+    redirect '/' if session[:user_id]
     erb(:'users/new')
   end
 
   get '/sessions/new' do
+    redirect '/' if session[:user_id]
     erb(:'sessions/new')
   end
 
@@ -50,6 +55,8 @@ class App < Sinatra::Base
   end
 
   get '/listings/:id' do
+    redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     @listing = Listing.find(id: params[:id])
     erb(:'listings/profile')
   end
@@ -65,12 +72,16 @@ class App < Sinatra::Base
   end
 
   get '/bookings' do
+    redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     @outgoing_bookings = Booking.where(user_id: session[:user_id])
     @incoming_bookings = Booking.incoming_bookings(owner_id: session[:user_id])
     erb :'bookings/index'
   end
 
   get '/bookings/:id' do
+    redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     @booking = Booking.find_by_id(id: params[:id])
     @incoming_bookings = Booking.incoming_bookings(owner_id: session[:user_id])
     @listing = Listing.find(id: @booking.listing_id)
@@ -79,6 +90,7 @@ class App < Sinatra::Base
   end
 
   patch '/bookings/:id' do
+    redirect '/users/new' unless session[:user_id]
     booking = Booking.find_by_id(id: params[:id])
     params[:choice] == 'accept' ? booking.accept : booking.reject
     redirect('/bookings')

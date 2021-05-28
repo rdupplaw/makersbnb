@@ -2,6 +2,7 @@
 
 feature 'Add listings' do
   scenario 'A user can add a listing' do
+    register_new_user
     visit '/listings'
     click_button('List a Space')
 
