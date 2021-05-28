@@ -1,16 +1,57 @@
-<h1>Request for '<%= @listing.name %>'</h1>
+<html class="listingsbg">
+ <head>
+    <style>
+    {
+        box-sizing: border-box;
+    }
+    /* Set additional styling options for the columns*/
+    .column {
+    float: left;
+    width: 50%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    }
 
-<p> From: <%= @user.email %></p>
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
+ </head>
+ <br><br>
+<div class="column">
+  <div class="leftcolumn">
+  <h1>Request for '<%= @listing.name %>'</h1>
 
-<p> Date: <%= @booking.start_date %></p>
+<h2> From: <%= @user.email %></h2>
 
+<h4> Date: <%= @booking.start_date %></h4><br><br>
+
+<form action="/bookings/<%= @booking.id %>" method='post'>
+  <input name="_method" type="hidden" value="patch" />
+  <input type="hidden" name='choice' value='accept'>
+  <input type="submit" value="Confirm request from <%= @user.email %>" id="name">
+</form><br>
+
+<form action="/bookings/<%= @booking.id %>" method='post'>
+  <input name="_method" type="hidden" value="patch" />
+  <input type="hidden" name='choice' value='reject'>
+  <input type="submit" value="Deny request from <%= @user.email %>" id="name">
+</form>
+</div>
+</div>
+
+<div class="column">
 <h2> Other requests for this space</h2>
-
+<div class="listings" id="listings">
+      <ul class="displaylist" id="displaylist">
 <ul>
   <% @incoming_bookings.each do |booking| %>
     <li>
-      <p><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a></p>
-      <p>
+      <h3><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a></h3>
+      <li><h4>
         <% if booking.confirmed.nil?  %>
           Not confirmed
         <% elsif booking.confirmed %>
@@ -18,21 +59,10 @@
         <% else %>
           Denied
         <% end %>
-      </p>
-      <p><%= booking.start_date %></p>
+      <%= booking.start_date %></h4></li>
     </li>
   <% end%>
 </ul>
+</div>
+</div>
 
-
-<form action="/bookings/<%= @booking.id %>" method='post'>
-  <input name="_method" type="hidden" value="patch" />
-  <input type="hidden" name='choice' value='accept'>
-  <input type="submit" value="Confirm request from <%= @user.email %>" id="name">
-</form>
-
-<form action="/bookings/<%= @booking.id %>" method='post'>
-  <input name="_method" type="hidden" value="patch" />
-  <input type="hidden" name='choice' value='reject'>
-  <input type="submit" value="Deny request from <%= @user.email %>" id="name">
-</form>
