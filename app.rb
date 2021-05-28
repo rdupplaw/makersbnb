@@ -20,6 +20,7 @@ class App < Sinatra::Base
   end
 
   get '/listings' do
+    redirect '/users/new' unless session[:user_id]
     @user = User.find(session[:user_id]) if session[:user_id]
     @listings = Listing.all
     erb :'listings/index', layout: :layout
@@ -27,22 +28,23 @@ class App < Sinatra::Base
 
   get '/listings/new' do
     redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     erb :'listings/new'
   end
 
   post '/listings' do
-    redirect '/users/new' unless session[:user_id]
     Listing.create(name: params[:name], description: params[:description], price: params[:price],
                    owner_id: session[:user_id], start_date: params[:from], end_date: params[:to])
     redirect '/listings'
   end
 
   get '/users/new' do
-    redirect '/listings' if session[:user_id]
+    redirect '/' if session[:user_id]
     erb(:'users/new')
   end
 
   get '/sessions/new' do
+    redirect '/' if session[:user_id]
     erb(:'sessions/new')
   end
 
@@ -54,12 +56,12 @@ class App < Sinatra::Base
 
   get '/listings/:id' do
     redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     @listing = Listing.find(id: params[:id])
     erb(:'listings/profile')
   end
 
   post '/listings/:id/bookings' do
-    redirect '/users/new' unless session[:user_id]
     if Booking.exists(start_date: params[:start_date], listing_id: params[:id])
       flash[:notice] = 'A booking already exists on this date'
       redirect("/listings/#{params[:id]}")
@@ -71,6 +73,7 @@ class App < Sinatra::Base
 
   get '/bookings' do
     redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     @outgoing_bookings = Booking.where(user_id: session[:user_id])
     @incoming_bookings = Booking.incoming_bookings(owner_id: session[:user_id])
     erb :'bookings/index'
@@ -78,6 +81,7 @@ class App < Sinatra::Base
 
   get '/bookings/:id' do
     redirect '/users/new' unless session[:user_id]
+    @user = User.find(session[:user_id]) if session[:user_id]
     @booking = Booking.find_by_id(id: params[:id])
     @incoming_bookings = Booking.incoming_bookings(owner_id: session[:user_id])
     @listing = Listing.find(id: @booking.listing_id)
