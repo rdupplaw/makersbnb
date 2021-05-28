@@ -1,29 +1,51 @@
-<% if @user %> 
-<form action="/sessions/destroy" method='post'>
-  <input type="submit" value='Sign out'>
-</form>
-  <p>Hello, <%= @user.email %></p>
-<% else %>
-  <form action="/users/new">
-    <input type="submit" value='Sign up'>
-  </form>
-  <form action="/sessions/new">
-    <input type="submit" value='Sign in'>
-  </form>
-<% end %>
+<html class="listingsbg">
+ <head>
+    <style>
+    {
+        box-sizing: border-box;
+    }
+    /* Set additional styling options for the columns*/
+    .column {
+    float: left;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
 
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
+ </head>
+
+<div class="pageheading">
+  <h1>Check out our available spaces.</h1>
+</div>
+
+<div class="pageheading">
+  <p>With more properties available than ever before,<br>you are guaranteed to find the right space for you.</p>
+</div>
+
+<div class="centrebutton">
 <form action="/listings/new" method='get'>
-  <input type="submit" value='List a Space'>
-</form>
+    <input type="submit" value='List a Space'>
+</div>
 
-<ul>
-  <% @listings.each do |listing| %>
-    <li class="listing" id="listing-<%= listing.id %>">
-      <p>
-        <a href="/listings/<%=listing.id%>"> <%= listing.name %> </a>
-      </p>
-      <p><%= listing.description %></p>
-      <p><%= listing.price %></p>
-    </li>
-  <% end %>
-<ul>
+<div class="column">
+  <div class="listings" id="listings">
+    <ul class="displaylist" id="displaylist">
+      <% @listings.each do |listing| %>
+        <li class="listing" id="listing-<%= listing.id %>">
+          <h1><a href="/listings/<%=listing.id%>">
+          <li><%= listing.name %></a> | 
+          <%= listing.description %> - 
+          <%= listing.price %></h1></li>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+</html>

@@ -1,12 +1,36 @@
-<h1>Requests</h1>
+<html class="bookingsbg">
+ <head>
+    <style>
+    {
+        box-sizing: border-box;
+    }
+    /* Set additional styling options for the columns*/
+    .column {
+    float: left;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
 
-<h2>Requests I've made</h2>
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
+ </head>
+ 
+<div class="pageheading">
+<h1>Here are your requests</h1><br>
+</div>
+<div class="column">
+<h2>Requests you've made</h2>
 
 <ul>
   <% @outgoing_bookings.each do |booking| %>
     <li>
-      <p><a href="/listings/<%= booking.listing_id %>"><%= Listing.find(id: booking.listing_id).name  %></a></p>
-      <p>
+      <h2><a href="/listings/<%= booking.listing_id %>"><%= Listing.find(id: booking.listing_id).name  %></a> | 
         <% if booking.confirmed.nil?  %>
           Not confirmed
         <% elsif booking.confirmed == 't' %>
@@ -14,19 +38,19 @@
         <% else %>
           Denied
         <% end %>
-      </p>
-      <p><%= booking.start_date %></p>
+       for <%= booking.start_date %></h2>
     </li>
   <% end%>
 </ul>
+</div>
 
-<h2>Requests I've received</h2>
+<div class="column">
+<h2>Requests you've received</h2>
 
 <ul>
   <% @incoming_bookings.each do |booking| %>
     <li>
-      <p><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a></p>
-      <p>
+      <h2>><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a>
         <% if booking.confirmed.nil?  %>
           Not confirmed
         <% elsif booking.confirmed == 't' %>
@@ -34,8 +58,9 @@
         <% else %>
           Denied
         <% end %>
-      </p>
-      <p><%= booking.start_date %></p>
+       for <%= booking.start_date %></h2>
     </li>
   <% end%>
 </ul>
+</div>
+</html>
