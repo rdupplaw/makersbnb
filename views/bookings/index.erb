@@ -50,7 +50,7 @@
 <ul>
   <% @incoming_bookings.each do |booking| %>
     <li>
-      <h2>><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a>
+      <h2><a href="/bookings/<%= booking.id %>"><%= Listing.find(id: booking.listing_id).name  %></a>
         <% if booking.confirmed.nil?  %>
           Not confirmed
         <% elsif booking.confirmed == 't' %>
