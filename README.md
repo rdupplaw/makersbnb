@@ -62,4 +62,16 @@ I want to request a space on a certain date.
 As a lister,
 So I can let the requester know their booking is confirmed,
 I want to confirm a request.
+
+As a lister,
+So I can tell the requester that I deny their booking,
+I want to deny a request.
+
+As a requester,
+So that I can't book an unavailable space,
+I shouldn't be able to book a space which already has a confirmed booking for that day.
+
+As a lister,
+So I can show when my listing is available,
+I want to select a start and end date for availability.
 ```
