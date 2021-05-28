@@ -178,7 +178,7 @@
   font-family: CircularL;
 }
 
-.registerforms input[type=text], input[type=password], input[type=date] {
+.registerforms input[type=text], input[type=password], input[type=date], input[type=email] {
   width: 30%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -278,7 +278,7 @@ a:hover {color:#673a00;}
     margin-left: 10%;
   }
   
-  .registerforms2 input[type=text], input[type=password]{
+  .registerforms2 input[type=text], input[type=password], input[type=email] {
     width: 30%;
     padding: 12px 20px;
     margin: 8px 0;
