@@ -1,0 +1,307 @@
+.loginbg {
+  background-image: url("/images/background10.jpg");
+  background-color: #f9bc67;
+  background-size: 100% 122%;
+  background-position: top;
+  position: relative;
+}
+
+.login2bg {
+  background-image: url("/images/background11.jpg");
+  background-color: #f9bc67;
+  background-size: 100%;
+  position: bottom left;
+}
+
+.listingsbg {
+  background-image: url("/images/background3.jpg");
+  background-color: #f9bc67;
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  background-origin: center;
+}
+
+.bookingsbg {
+  background-image: url("/images/background4.jpg");
+  background-color: #f9bc67;
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  background-origin: center;
+}
+
+.navigation_items {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.navigation_items li {
+  float: right;
+  display: block;
+  text-align: center;
+  padding: 12px 9px;
+  text-decoration: none;
+}
+
+.navigation_items li a {
+  display: block;
+  text-align: center;
+  padding: 12px 9px;
+  text-decoration: none;
+}
+
+.navigation_items a {
+  display: block;
+  text-align: center;
+  padding: 12px 9px;
+  text-decoration: none;
+}
+
+.buttons form {
+  display: flex;
+  padding: 12px 9px;
+}
+
+.backgroundimage {
+  background-image: url("./images/homepagebackground.jpg");
+  background-color: #cccccc;
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.logo img {
+  float: left;
+  max-width: 333px;
+}
+
+.heroimage img {
+  max-width: 800px;
+}
+
+.displaylist {
+  list-style-type: disk;
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.displaylist li {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.displaylist li a {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: bold;
+}
+
+.displaylist a {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: bold;
+}
+
+.pageheading h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageheading p {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+
+
+.listings {
+  display: flex;
+  justify-content: center;
+}
+
+.registerforms {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin: 2px 2px;
+  font-size: 19px;
+  font-family: CircularL;
+}
+
+.registerforms input[type=text], input[type=password], input[type=date] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 7px;
+  border: #f7dea1;
+  box-sizing: border-box;
+  border: none;
+  color: #676767;
+  font-size: 19px;
+  font-family: CircularL;
+}
+
+.registerforms input[type=button], input[type=submit], input[type=reset] {
+  background-color: #2f1b00;
+  border: none;
+  border-radius: 7px;
+  font-size: 19px;
+  font-family: CircularL;
+  letter-spacing: 2px;
+  color: #f7dea1;
+  padding: 13px 121px; 
+  margin: 1px 1px;
+  cursor: pointer;
+}
+
+
+
+@font-face { font-family: CircularLL; font-weight: lighter; src: url('fonts/circularstd-book.ttf'); }
+@font-face { font-family: CircularL; font-weight: lighter; src: url('fonts/circularstd-medium.ttf'); } 
+@font-face { font-family: Circular; src: url('fonts/circularstd-bold.ttf');}
+@font-face { font-family: CircularB; font-weight: bolder; src: url('fonts/circularstd-black.ttf');}
+
+h1 { font-family: CircularB; font-size: 45px; color: #2f1b00;}
+h2 { font-family: Circular; font-size: 45px color: #2f1b00;}
+h3 { font-family: CircularB; font-size:30px color: #2f1b00;}
+h4 { font-family: CircularL; font-size: 21px; color: #2f1b00; letter-spacing: 1px; line-height: 0px;}
+h5 { font-family: CircularB; font-size: 15px; color: #2f1b00;}
+h6 { font-family: CircularLL; font-size: 15px; color: #9b845e; letter-spacing: 3px; line-height: 0px;
+  margin-bottom: 1.25em;
+}
+p { font-family: CircularLL; font-size: 19px; color: #2f1b00;}
+
+a:link{
+	color: #2f1b00;}
+
+a:visited{
+	color: #2f1b00;}
+
+a:hover {color:#673a00;}
+
+  .signupform {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 2px 2px;
+    margin-bottom: 1em;
+    font-size: 19px;
+    font-family: CircularL;
+  }
+  
+  .signupform input[type=text], input[type=email] input[type=password] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 7px;
+    border: #f7dea1;
+    box-sizing: border-box;
+    border: none;
+    color: #676767;
+    font-size: 19px;
+    font-family: CircularL;
+  }
+  
+  .signupform input[type=button], input[type=submit], input[type=reset] {
+    background-color: #2f1b00;
+    border: none;
+    border-radius: 7px;
+    font-size: 19px;
+    font-family: CircularL;
+    letter-spacing: 2px;
+    color: #f7dea1;
+    padding: 13px 19px; 
+    margin: 1px 1px;
+    cursor: pointer;
+  }
+
+  .registerforms2 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+    margin: 2px 2px;
+    margin-bottom: 1em;
+    font-size: 19px;
+    font-family: CircularL;
+    margin-left: 10%;
+  }
+  
+  .registerforms2 input[type=text], input[type=password]{
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 7px;
+    border: #f7dea1;
+    box-sizing: border-box;
+    border: none;
+    color: #676767;
+    font-size: 19px;
+    font-family: CircularL;
+  }
+  
+  .registerforms2 input[type=button], input[type=submit], input[type=reset] {
+    background-color: #2f1b00;
+    border: none;
+    border-radius: 7px;
+    font-size: 19px;
+    font-family: CircularL;
+    letter-spacing: 2px;
+    color: #f7dea1;
+    padding: 13px 19px; 
+    margin: 1px 1px;
+    cursor: pointer;
+    
+  }
+
+  .pageheading2 h1 {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    margin-left: 10%;
+  }
+
+  .pageheading2 p {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    margin-left: 10%;
+  }
+
+  #listings {
+    display:inline;      
+}
+
+  #displaylist {
+      display: inline;
+  }
+
+  .centrebutton {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  margin-top: 0px;
+  }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <div class="navigation">
+   <div class="buttons">
+      <ul class="navigation_items">
+          <% if @user %> 
+        <li><form action="/sessions/destroy" method='post'>
+          <input type="submit" value='Sign out'>
+        </form></li>
+        <li><h4><a href="/listings">Listings</a></li></h4>
+        <li><h4><a href="/bookings">Bookings</a></li></h4>
+          <li><h4>Hello, <%= @user.email %></h4></li>
+          <% else %>
+        <li><form action="/users/new">
+          <input type="submit" value='Sign up'>
+          </form></li>
+        <li><form action="/sessions/new">
+            <input type="submit" value='Sign in'>
+          </form></li>
+        <li><h4><a href="/listings">Listings</a></li></h4>
+        <li><h4><a href="/bookings">Bookings</a></li></h4>
+          <% end %>
+        <div class="logo">
+        <a href="/bookings"><img src="/images/logo6.png"></a>
+        </div>
+      </ul>
+    </div>
+  </div><br><br>
+
+<%= yield %>
+
+</body>
+</html>
