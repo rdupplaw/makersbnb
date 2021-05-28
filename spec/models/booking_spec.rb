@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'booking'
 require 'listing'
 require 'user'
@@ -6,11 +8,11 @@ describe Booking do
   describe '::where' do
     it 'returns all bookings for a specified user id' do
       owner = User.register(email: 'test2@example.com', password: 'password123')
-      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
       user = User.register(email: 'test@example.com', password: 'password123')
       other_user = User.register(email: 'test3@example.com', password: 'password123')
 
-      booking1 = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+      booking1 = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id, )
       booking2 = Booking.create(start_date: '2021-08-12', listing_id: listing.id, user_id: other_user.id)
       booking3 = Booking.create(start_date: '2021-09-12', listing_id: listing.id, user_id: user.id)
 
@@ -28,7 +30,7 @@ describe Booking do
   describe '::create' do
     it 'creates a new Booking object' do
       owner = User.register(email: 'test2@example.com', password: 'password123')
-      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
       user = User.register(email: 'test@example.com', password: 'password123')
 
       booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
@@ -46,7 +48,7 @@ describe Booking do
   describe '::find_by_id' do
     it 'finds a booking object' do
       owner = User.register(email: 'test2@example.com', password: 'password123')
-      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
       user = User.register(email: 'test@example.com', password: 'password123')
 
       booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
@@ -63,7 +65,7 @@ describe Booking do
   describe '#accept' do
     it 'allows a booking to be accepted' do
       owner = User.register(email: 'test2@example.com', password: 'password123')
-      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
       user = User.register(email: 'test@example.com', password: 'password123')
 
       booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
@@ -78,7 +80,7 @@ describe Booking do
   describe '#reject' do
     it 'allows a booking to be rejected' do
       owner = User.register(email: 'test2@example.com', password: 'password123')
-      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
       user = User.register(email: 'test@example.com', password: 'password123')
 
       booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
@@ -96,9 +98,9 @@ describe Booking do
         owner = User.register(email: 'test2@example.com', password: 'password123')
         other_owner = User.register(email: 'test3@example.com', password: 'password123')
         listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99,
-                                 owner_id: owner.id)
+                                 owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
         other_listing = Listing.create(name: 'test name 2', description: 'test description 2', price: 99.99,
-                                       owner_id: other_owner.id)
+                                       owner_id: other_owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
         user = User.register(email: 'test@example.com', password: 'password123')
         booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
         Booking.create(start_date: '2021-08-12', listing_id: listing.id, user_id: user.id)
@@ -111,6 +113,48 @@ describe Booking do
         expect(incoming_bookings.first.confirmed).to be_nil
         expect(incoming_bookings.first.start_date).to eq('2021-07-12')
       end
+    end
+  end
+
+  describe '::exists' do
+    it 'returns true if a confirmed booking exists for a given date and listing' do
+      owner = User.register(email: 'test2@example.com', password: 'password123')
+      user = User.register(email: 'test3@example.com', password: 'password123')
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
+      booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+
+      booking.accept
+
+      existing_booking = Booking.exists(start_date: booking.start_date, listing_id: listing.id)
+
+      expect(existing_booking).to eq(true)
+    end
+
+    it ' returns false if booking doesnt exists for given date and listing' do
+      owner = User.register(email: 'test2@example.com', password: 'password123')
+      user = User.register(email: 'test3@example.com', password: 'password123')
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id, start_date: '2021-05-27', end_date: '2021-05-28')
+      booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+
+      existing_booking = Booking.exists(start_date: '2022-07-12', listing_id: listing.id)
+
+      expect(existing_booking).to eq(false)
+    end
+  end
+
+  describe '::reject_all' do
+    it 'rejects all bookings except 1 for a listing on a given day' do
+      owner = User.register(email: 'test2@example.com', password: 'password123')
+      user = User.register(email: 'test3@example.com', password: 'password123')
+      user_two = User.register(email: 'test4@example.com', password: 'password123')
+      listing = Listing.create(name: 'test name 1', description: 'test description 1', price: 89.99, owner_id: owner.id)
+      booking = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user.id)
+      booking_two = Booking.create(start_date: '2021-07-12', listing_id: listing.id, user_id: user_two.id)
+    
+      Booking.reject_all(listing_id: listing.id, start_date: booking.start_date, id: booking.id)
+      booking_two_copy = Booking.find_by_id(id: booking_two.id)
+      expect(booking.confirmed).to eq(nil)
+      expect(booking_two_copy.confirmed).to eq('f')
     end
   end
 end

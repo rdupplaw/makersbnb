@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Booking
   attr_reader :id, :confirmed, :start_date, :listing_id, :user_id
 
@@ -30,8 +32,14 @@ class Booking
                 listing_id: result[0]['listing_id'], user_id: result[0]['user_id'])
   end
 
+  def self.reject_all(listing_id:, start_date:, id:)
+    DatabaseConnection.query("UPDATE bookings SET confirmed = FALSE WHERE listing_id = #{listing_id} 
+      AND start_date = '#{start_date}' AND id != #{id}")
+  end 
+
   def accept
     DatabaseConnection.query("UPDATE bookings SET confirmed = TRUE WHERE id = #{id}")
+    Booking.reject_all(listing_id: listing_id, start_date: start_date, id: id)
     confirm_booking
   end
 
@@ -49,6 +57,14 @@ class Booking
       Booking.new(id: booking['id'], confirmed: booking['confirmed'], start_date: booking['start_date'], listing_id: booking['listing_id'],
                   user_id: booking['user_id'])
     end
+  end
+
+  def self.exists(start_date:, listing_id:)
+    dbname = ENV['RACK_ENV'] == 'test' ? 'makersbnb_test' : 'makersbnb'
+    connection = PG.connect(dbname: dbname)
+    result = connection.exec_params('SELECT * FROM bookings WHERE confirmed=true AND start_date=$1 AND listing_id=$2',
+                                    [start_date, listing_id]).first
+    result ? true : false
   end
 
   private

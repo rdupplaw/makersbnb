@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bcrypt'
 
 class User
@@ -13,11 +15,12 @@ class User
     User.new(result.first['id'], result.first['email'])
   end
 
-  def self.login(email, password)
+  def self.authenticate(email, password)
     user = DatabaseConnection.query_params('SELECT * FROM users WHERE email = $1', [email])
     return unless user.any?
-
-    BCrypt::Password.new(user.first['password']) == password ? User.new(user.first['id'], user.first['email']) : nil
+    return unless BCrypt::Password.new(user.first['password']) == password
+  
+    User.new(user.first['id'], user.first['email'])
   end
 
   attr_reader :id, :email
