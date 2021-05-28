@@ -19,7 +19,7 @@ class User
     user = DatabaseConnection.query_params('SELECT * FROM users WHERE email = $1', [email])
     return unless user.any?
     return unless BCrypt::Password.new(user.first['password']) == password
-  
+
     User.new(user.first['id'], user.first['email'])
   end
 
