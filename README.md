@@ -75,3 +75,18 @@ As a lister,
 So I can show when my listing is available,
 I want to select a start and end date for availability.
 ```
+
+## Technologies
+
+Ruby, Sinatra, RSpec, Capybara, bcrypt, PostgreSQL, HTML, CSS
+
+## Contributors
+
+This project was completed over five days. We were given the specification which we used to create user stories. From the user stories, we sketched out CRC cards to model the program, and then used TDD and pair programming to produce it. Over the week, we met every morning and afternoon to discuss our work for the day and to reflect on our working practices.
+
+[@rdupplaw](https://github.com/rdupplaw)
+[@cms718](https://github.com/cms718)
+[@charlie-casserly](https://github.com/charlie-casserly)
+[@StuMcardle](https://github.com/StuMcardle)
+[@russel-h](https://github.com/russell-h)
+[@ells101](https://github.com/ells101)
